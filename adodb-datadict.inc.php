@@ -182,7 +182,8 @@ class ADODB_DataDict {
 	var $invalidResizeTypes4 = array('CLOB','BLOB','TEXT','DATE','TIME'); // for changetablesql
 	var $blobSize = 100; 	/// any varchar/char field this size or greater is treated as a blob
 							/// in other words, we use a text area for editing.
-
+	
+	
 	function GetCommentSQL($table,$col)
 	{
 		return false;
