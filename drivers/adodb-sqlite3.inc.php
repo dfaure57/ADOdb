@@ -439,25 +439,29 @@ class ADODB_sqlite3 extends ADOConnection {
 
 		$indexes = array ();
 		while ($row = $rs->FetchRow()) {
+			print_r($row);
 			if ($primary && preg_match("/primary/i",$row[1]) == 0) {
 				continue;
 			}
-			if (!isset($indexes[$row[0]])) {
-				$indexes[$row[0]] = array(
-					'unique' => preg_match("/unique/i",$row[1]),
-					'columns' => array()
-				);
+			if (!isset($indexes[$row[0]])) 
+			{
+				if ($this->suppressExtendedMetaIndexes)
+					$indexes[$row[0]] = $this->legacyMetaIndexFormat;
+				else
+					$indexes[$row[0]] = $this->extendedMetaIndexFormat;
+				
+				$indexes[$row[0]]['unique'] = stripos($row[1],'unique')!== false ?1:0;
+				$indexes[$row[0]]['primary']= stripos($row[1],'primary') !== false ?1:0;
 			}
 			/**
-			 * There must be a more elegant way of doing this,
-			 * the index elements appear in the SQL statement
+			 * The index elements appear in the SQL statement
 			 * in cols[1] between parentheses
 			 * e.g CREATE UNIQUE INDEX ware_0 ON warehouse (org,warehouse)
 			 */
-			$cols = explode("(",$row[1]);
-			$cols = explode(")",$cols[1]);
-			array_pop($cols);
-			$indexes[$row[0]]['columns'] = $cols;
+			 preg_match_all('/\((.*)\)/',$s,$indexElements);
+			//$cols = explode("(",$row[1]);
+			//$cols = explode(")",$cols[1]);
+			$indexes[$row[0]]['columns'] = explode(',',$indexElements[1][0]);
 		}
 		if (isset($savem)) {
 			$this->SetFetchMode($savem);

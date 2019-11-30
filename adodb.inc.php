@@ -542,6 +542,7 @@ if (!defined('_ADODB_LAYER')) {
 	*/
 	protected $legacyMetaIndexFormat = array(
 		'unique'=>0,
+		'primary'=>0,
 		'columns'=>array()
 		);
 		
@@ -550,6 +551,7 @@ if (!defined('_ADODB_LAYER')) {
 	*/
 	protected $extendedMetaIndexFormat = array(
 		'unique'=>0,
+		'primary'=>0,
 		'columns'=>array(),
 		'index-attributes'=>array(),
 		'column-attributes'=>array()
