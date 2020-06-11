@@ -244,7 +244,7 @@ class ADODB_postgres7 extends ADODB_postgres64 {
 		$this->_errorMsg = false;
 		// -- added Cristiano da Cunha Duarte
 		if ($inputarr) {
-			$sqlarr = explode('?',trim($sql));
+			$sqlarr = explode(' ?',trim($sql));
 			$sql = '';
 			$i = 1;
 			$last = sizeof($sqlarr)-1;
